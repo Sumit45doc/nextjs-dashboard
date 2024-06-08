@@ -67,10 +67,7 @@ export async function createInvoice(_prevState: State, formData: FormData) {
   redirect('/dashboard/invoices')
 }
 
-// Use Zod to update the expected types
 const UpdateInvoice = FormSchema.omit({ id: true, date: true });
-
-// ...
 
 export async function updateInvoice(id: string, _prevState: State, formData: FormData) {
   const validatedFields = UpdateInvoice.safeParse({
@@ -123,7 +120,6 @@ export async function authenticate(_prevState: string, formData: AuthFormData) {
     await signIn('credentials', formData)
   } catch (error) {
     if (error instanceof AuthError) {
-      console.log(error)
       switch (error.type) {
         case 'CredentialsSignin': {
           return 'invalidate credential'
@@ -131,6 +127,6 @@ export async function authenticate(_prevState: string, formData: AuthFormData) {
         default: return 'Something went wrong'
       }
     }
-    throw error;
+    return 'Something went wrong';
   }
 }
