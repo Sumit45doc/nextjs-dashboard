@@ -9,9 +9,9 @@ import { ArrowRightIcon } from '@heroicons/react/20/solid';
 import { Button } from './button';
 import { useFormState, useFormStatus } from 'react-dom';
 import { authenticate } from '../lib/actions';
-
+const initialState: undefined | string = undefined;
 export default function LoginForm() {
-  const [errorMessage, dispatch] = useFormState(authenticate, '');
+  const [errorMessage, dispatch] = useFormState(authenticate, initialState);
   return (
     <form className="space-y-3" action={dispatch}>
       <div className="flex-1 rounded-lg bg-gray-50 px-6 pb-4 pt-8">
@@ -74,7 +74,7 @@ export default function LoginForm() {
             </>
           )}
         </div>
-        <div className="text-green-600  h-8  space-x-1">
+        <div className="h-8  space-x-1  text-green-600">
           <p>Use below credential</p>
           <p>email: user@nextmail.com</p>
           <p>Password: 123456</p>

@@ -115,7 +115,7 @@ type AuthFormData = {
   password: string;
 }
 
-export async function authenticate(_prevState: string, formData: AuthFormData) {
+export async function authenticate(_prevState: string | undefined, formData: FormData) {
   try {
     await signIn('credentials', formData)
   } catch (error) {
@@ -127,6 +127,5 @@ export async function authenticate(_prevState: string, formData: AuthFormData) {
         default: return 'Something went wrong'
       }
     }
-    return 'Something went wrong';
   }
 }
