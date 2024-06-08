@@ -60,20 +60,24 @@ export default function LoginForm() {
           </div>
         </div>
         <LoginButton />
-        <div className="flex h-8 items-end space-x-1">
-          {/* Add form errors here */}
-          <div
-            className="flex h-8 items-end space-x-1"
-            aria-live="polite"
-            aria-atomic="true"
-          >
-            {errorMessage && (
-              <>
-                <ExclamationCircleIcon className="h-5 w-5 text-red-500" />
-                <p className="text-sm text-red-500">{errorMessage}</p>
-              </>
-            )}
-          </div>
+
+        {/* Add form errors here */}
+        <div
+          className="flex h-8 items-end space-x-1"
+          aria-live="polite"
+          aria-atomic="true"
+        >
+          {errorMessage && (
+            <>
+              <ExclamationCircleIcon className="h-5 w-5 text-red-500" />
+              <p className="text-sm text-red-500">{errorMessage}</p>
+            </>
+          )}
+        </div>
+        <div className="text-green-600  h-8  space-x-1">
+          <p>Use below credential</p>
+          <p>email: user@nextmail.com</p>
+          <p>Password: 123456</p>
         </div>
       </div>
     </form>
