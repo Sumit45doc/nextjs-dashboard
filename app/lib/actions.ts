@@ -1,6 +1,8 @@
 'use server'
 
+import { signIn } from "@/auth"
 import { sql } from "@vercel/postgres"
+import { AuthError } from "next-auth"
 import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
 import { z } from "zod"
@@ -46,7 +48,7 @@ export async function createInvoice(_prevState: State, formData: FormData) {
     }
   }
 
-  const { customerId, amount, status } = validatedFields.data;  
+  const { customerId, amount, status } = validatedFields.data;
 
   const amountInCents = amount * 100;
   const date = new Date().toISOString().split('T')[0]
@@ -77,13 +79,13 @@ export async function updateInvoice(id: string, _prevState: State, formData: For
     status: formData.get('status'),
   });
 
-  if(!validatedFields.success){
+  if (!validatedFields.success) {
     return ({
       message: 'Missing Field, Fail to update invoice',
       errors: validatedFields.error.flatten().fieldErrors
     })
   }
-  const { customerId, amount, status }  = validatedFields.data;
+  const { customerId, amount, status } = validatedFields.data;
   const amountInCents = amount * 100;
   try {
 
@@ -108,5 +110,27 @@ export async function deleteInvoice(id: string) {
     return { message: 'Deleted Invoice.' };
   } catch (error) {
     return { message: 'Database Error: Failed to Delete Invoice.' };
+  }
+}
+
+type AuthFormData = {
+  email: string;
+  password: string;
+}
+
+export async function authenticate(_prevState: string, formData: AuthFormData) {
+  try {
+    await signIn('credentials', formData)
+  } catch (error) {
+    if (error instanceof AuthError) {
+      console.log(error)
+      switch (error.type) {
+        case 'CredentialsSignin': {
+          return 'invalidate credential'
+        }
+        default: return 'Something went wrong'
+      }
+    }
+    throw error;
   }
 }
