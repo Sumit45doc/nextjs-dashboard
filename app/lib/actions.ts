@@ -127,5 +127,6 @@ export async function authenticate(_prevState: string | undefined, formData: For
         default: return 'Something went wrong'
       }
     }
+    throw error;
   }
 }
